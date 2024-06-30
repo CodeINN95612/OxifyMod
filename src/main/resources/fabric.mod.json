@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "oxify",
+  "version": "${version}",
+  "name": "Oxify",
+  "description": "Adds Oxifier item to the game, which oxidized copper blocks.",
+  "authors": ["CodeINN95612"],
+  "contact": {
+    "sources": "https://github.com/CodeINN95612/OxifyMod"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/oxify/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.codinn.oxify.Oxify"],
+    "client": ["com.codinn.oxify.OxifyClient"],
+    "fabric-datagen": ["com.codinn.oxify.OxifyDataGenerator"]
+  },
+  "mixins": ["oxify.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.21",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
