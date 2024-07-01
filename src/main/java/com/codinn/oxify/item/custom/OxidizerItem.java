@@ -68,7 +68,7 @@ public class OxidizerItem extends Item {
     }
 
     private Optional<BlockState> tryDegrade(World world, BlockPos pos, @Nullable PlayerEntity player, BlockState state) {
-        if (state.getBlock() instanceof OxidizableBlock block) {
+        if (state.getBlock() instanceof Oxidizable block) {
             Optional<BlockState> degradedState = block.getDegradationResult(state);
             world.playSound(player, pos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, pos, 0);
