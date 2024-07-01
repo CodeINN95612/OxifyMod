@@ -1,2 +1,3 @@
 # OxifyMod
-Minecraft mod. Adds Oxifier item to the game, which oxidized copper blocks.
+
+Minecraft mod. Adds Oxidizer item to the game, which oxidizes copper blocks.
