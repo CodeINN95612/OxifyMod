@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": ["#", "c", "/"],
+  "category": "equipment",
   "key": {
-    "#": {
-      "item": "minecraft:amethyst_shard"
-    },
-    "c": {
-      "item": "minecraft:copper_ingot"
-    },
-    "/": {
-      "item": "minecraft:stick"
-    }
+    "A": "minecraft:amethyst_shard",
+    "B": "minecraft:copper_ingot",
+    "C": "minecraft:stick"
   },
+  "pattern": [
+    "A", 
+    "B", 
+    "C"
+  ],
   "group": "oxify",
   "result": {
     "id": "oxify:oxidizer",
