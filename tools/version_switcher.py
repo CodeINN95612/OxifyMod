@@ -85,13 +85,14 @@ class VersionSwitcher:
             print(f"  Using fallback yarn mappings: {suggestions['yarn_mappings']}")
         
         # Get loader version
-        loader_version = self.get_latest_loader_version()
-        if loader_version:
-            suggestions["loader_version"] = loader_version
-            print(f"  Latest loader version: {loader_version}")
-        else:
-            suggestions["loader_version"] = "0.16.9"  # Fallback
-            print(f"  Using fallback loader version: {suggestions['loader_version']}")
+        # loader_version = self.get_latest_loader_version()
+        # if loader_version:
+        #     suggestions["loader_version"] = loader_version
+        #     print(f"  Latest loader version: {loader_version}")
+        # else:
+        #     suggestions["loader_version"] = "0.16.9"  # Fallback
+        #     print(f"  Using fallback loader version: {suggestions['loader_version']}")
+        loader_version = "0.16.9"
         
         # Get Fabric API version
         fabric_version = self.get_latest_fabric_api_version(minecraft_version)
