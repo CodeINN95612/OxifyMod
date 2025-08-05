@@ -7,13 +7,12 @@ This directory contains scripts to easily switch between Minecraft versions for 
 ## Files
 
 - `version_switcher.py` - Full-featured Python script with automatic dependency resolution
-- `version_switcher.bat` - Simple Windows batch script
 - `requirements.txt` - Python dependencies
 - `VERSION_SWITCHER_README.md` - This file
 
 ## Setup
 
-### Python Script (Recommended)
+### Python Script
 
 1. Navigate to the tools directory:
    ```bash
@@ -46,16 +45,24 @@ python version_switcher.py --help
 
 ### What it does
 
-1. Fetches the latest compatible versions from Fabric Meta API:
+1. Fetches the latest compatible versions from various APIs:
    - Latest Yarn mappings for the Minecraft version
    - Latest Fabric Loader version
    - Latest Fabric API version for the Minecraft version
+   - Latest Gradle version
+   - Latest Fabric Loom version
 
 2. Updates the following files:
    - `gradle.properties` - All version properties
-   - `src/main/resources/fabric.mod.json` - Minecraft version dependency
+   - `src/main/resources/fabric.mod.json` - Minecraft version and fabric-api dependency
+   - `gradle/wrapper/gradle-wrapper.properties` - Gradle wrapper version
+   - `build.gradle` - Fabric Loom plugin version
 
-3. Cleans and builds the project
+3. Runs setup and build tasks:
+   - Cleans the project
+   - Runs `gradlew genSources` to generate mappings
+   - Runs `gradlew vscode` to setup VS Code integration
+   - Builds the project
 
 4. Reports success/failure and shows built JAR files
 
@@ -90,18 +97,27 @@ Check https://fabricmc.net/develop for the latest versions of:
 
 ## Files Modified
 
-Both scripts modify these files:
+The Python script modifies these files:
 
 1. **gradle.properties**
    - `minecraft_version` - Target Minecraft version
    - `mod_version` - Full mod version (minecraft_version-mod_version)
-   - `yarn_mappings` - Yarn mappings version (Python script only)
-   - `loader_version` - Fabric Loader version (Python script only) 
-   - `fabric_version` - Fabric API version (Python script only)
+   - `yarn_mappings` - Yarn mappings version
+   - `loader_version` - Fabric Loader version
+   - `fabric_version` - Fabric API version
 
 2. **src/main/resources/fabric.mod.json**
-   - `depends.minecraft` - Minecraft version constraint (Python script only)
-   - `depends.fabricloader` - Fabric Loader version constraint (Python script only)
+   - `depends.minecraft` - Minecraft version constraint
+   - `depends.fabricloader` - Fabric Loader version constraint  
+   - `depends.fabric-api` - Fabric API version constraint
+
+3. **gradle/wrapper/gradle-wrapper.properties**
+   - `distributionUrl` - Updated to latest Gradle version
+
+4. **build.gradle**
+   - `fabric-loom` plugin version - Updated to latest Loom version
+
+The batch script only modifies `gradle.properties` with basic version changes.
 
 ## Backup
 
@@ -109,16 +125,27 @@ The batch script creates `gradle.properties.backup` before making changes. The P
 
 ## Expected Build Failures
 
-The scripts will attempt to build the mod, but builds may fail due to:
+The script will attempt to build the mod, but builds may fail due to:
 
 1. **Breaking changes in Fabric API** - Methods may have been renamed, moved, or removed
 2. **Minecraft API changes** - Minecraft itself may have breaking changes between versions
 3. **Incompatible dependency versions** - Some combinations of versions may not work together
+4. **Gradle/Loom compatibility issues** - New versions may have different requirements
 
 This is expected and normal. The purpose of the script is to:
 1. Automate the tedious version configuration changes
-2. Quickly test if the mod builds without code changes
-3. Identify what needs to be manually fixed
+2. Update all build tools to their latest versions
+3. Generate proper mappings and IDE integration
+4. Quickly test if the mod builds without code changes
+5. Identify what needs to be manually fixed
+
+## Additional Setup Steps
+
+The script now also runs:
+- `gradlew genSources` - Generates decompiled Minecraft sources for better IDE support
+- `gradlew vscode` - Sets up VS Code integration with proper classpath and debugging
+
+If these steps fail, you may need to run them manually after the version switch.
 
 ## Troubleshooting
 
@@ -132,9 +159,31 @@ This is expected and normal. The purpose of the script is to:
 - You'll need to manually update the Java code to work with the new versions
 - Check the Fabric documentation for migration guides
 
+### "genSources" or "vscode" Tasks Fail
+- These are not critical for the mod to work, but help with development
+- Try running them manually: `gradlew genSources` and `gradlew vscode`
+- If they continue to fail, you can develop without them but may have limited IDE support
+
+### Gradle Wrapper Update Issues
+- If the new Gradle version is incompatible, you may need to downgrade
+- Check the Fabric Loom compatibility matrix for supported Gradle versions
+- Manually edit `gradle/wrapper/gradle-wrapper.properties` if needed
+
+### Fabric Loom Version Issues
+- If the latest Loom version is incompatible, you may see build script errors
+- Check the Fabric Loom releases page for compatibility notes
+- You can manually downgrade the version in `build.gradle` if needed
+
 ### "No minecraft_version property found"
 - Make sure you're running the script from the Oxify mod root directory
 - Verify `gradle.properties` exists and contains the expected properties
+
+### Network/API Issues
+- If version fetching fails, the script uses fallback versions
+- You can manually check and update versions from:
+  - https://fabricmc.net/develop
+  - https://gradle.org/releases/
+  - https://github.com/FabricMC/fabric-loom/releases
 
 ## Version History
 
