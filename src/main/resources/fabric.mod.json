@@ -3,7 +3,7 @@
   "id": "oxify",
   "version": "${version}",
   "name": "Oxify",
-  "description": "Adds Oxifier item to the game, which oxidized copper blocks.",
+  "description": "Adds Oxifier item to the game, which oxidizes copper blocks.",
   "authors": [
     "CodeINN95612"
   ],
