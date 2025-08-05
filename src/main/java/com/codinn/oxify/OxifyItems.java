@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.codinn.oxify.item.custom.OxidizerItem;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
