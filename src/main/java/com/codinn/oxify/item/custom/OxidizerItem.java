@@ -57,6 +57,9 @@ public class OxidizerItem extends Item {
 
         world.setBlockState(blockPosition, degradationState.get(), Block.NOTIFY_ALL_AND_REDRAW);
         world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPosition, GameEvent.Emitter.of(player, degradationState.get()));
+        
+        world.playSound(player, blockPosition, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, blockPosition, 0);
 
         if (player != null) {
             itemStack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
@@ -68,8 +71,6 @@ public class OxidizerItem extends Item {
     private Optional<BlockState> tryDegrade(World world, BlockPos pos, @Nullable PlayerEntity player, BlockState state) {
         if (state.getBlock() instanceof Oxidizable block) {
             Optional<BlockState> degradedState = block.getDegradationResult(state);
-            world.playSound(player, pos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, pos, 0);
             return degradedState;
         }
 
