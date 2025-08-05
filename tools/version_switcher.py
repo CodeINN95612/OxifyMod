@@ -121,7 +121,7 @@ class VersionSwitcher:
             warnings.append(f"Yarn mappings for {minecraft_version} not found - using fallback {suggestions['yarn_mappings']}")
         
         # Get loader version (keep static for now)
-        suggestions["loader_version"] = "0.16.9"
+        suggestions["loader_version"] = "0.16.10"
         print(f"✓ Using Fabric Loader version: {suggestions['loader_version']}")
         
         # Get Fabric API version
@@ -210,7 +210,9 @@ class VersionSwitcher:
         
         # Update the distribution URL
         new_url = f"https\\://services.gradle.org/distributions/gradle-{gradle_version}-bin.zip"
-        content = re.sub(r'distributionUrl=.*', f'distributionUrl={new_url}', content)
+        
+        # Not updating gradle because it is better to just keep it and see errors on /gradlew runClient
+        # content = re.sub(r'distributionUrl=.*', f'distributionUrl={new_url}', content)
         
         self.gradle_wrapper_properties.write_text(content, encoding='utf-8')
         print(f"✓ Gradle wrapper updated to version {gradle_version}")
@@ -409,7 +411,7 @@ class VersionSwitcher:
         print("   • src/main/resources/fabric.mod.json - fabric-api dependency")
         
         print("\n" + "🔧 TESTING STEPS:")
-        print("   • Run 'gradlew build' to see specific build errors")
+        print("   • Run 'gradlew build' and 'gradlew runClient' to see specific build errors")
         print("   • Run 'gradlew clean build' for a fresh build")
         print("   • Check error messages for incompatible versions")
         
